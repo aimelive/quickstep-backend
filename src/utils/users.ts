@@ -1,8 +1,9 @@
-const users: { id: string; username: string; room: string }[] = [];
+import User from "../@types/user";
+
+const users: User[] = [];
 
 // Join user to movement
-export function userJoin(id: string, username: string, room: string) {
-  const user = { id, username, room };
+export function userJoin(user: User) {
   users.push(user);
   return user;
 }

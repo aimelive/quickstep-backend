@@ -1,15 +1,16 @@
 import http from "http";
-import express, { Request, Response } from "express";
+import express from "express";
 import { Server, Socket } from "socket.io";
 import cors from "cors";
 import * as dotenv from "dotenv";
-import routes from "./restful";
+import routes from "./restful/routes";
 import {
   getCurrentUser,
   getRoomUsers,
   userJoin,
   userLeave,
 } from "./utils/users";
+import User from "./@types/user";
 
 dotenv.config();
 
@@ -30,15 +31,19 @@ const io = new Server(server, {
 // Running when user connects
 io.on("connection", (socket: Socket) => {
   socket.on("joinRoom", (data) => {
-    const user = userJoin(data.user, data.username, data.room);
+    const user: User = userJoin({
+      id: data.user,
+      username: data.username,
+      room: data.room,
+    });
 
     socket.join(user.room);
 
     //Welcome user
-    socket.emit("connected", "Welcome to Quick step live location tracking");
+    socket.emit("connected", "You're connected to the movement");
     socket.broadcast
       .to(user.room)
-      .emit("connected", `${user.username} has joined the party`);
+      .emit("connected", `${user.username} has joined the movement`);
 
     socket.on("locationChanged", (data) => {
       const { user, lat, long } = data;
@@ -48,11 +53,12 @@ io.on("connection", (socket: Socket) => {
 
       io.to(userA.room).emit("locationChanged", {
         user: userA.id,
+        username: userA.username,
         lat,
         long,
       });
     });
-
+    // hkbj
     //Send users and room info
     io.to(user.room).emit("roomUsers", {
       room: user.room,
