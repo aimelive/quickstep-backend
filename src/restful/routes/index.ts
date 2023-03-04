@@ -1,17 +1,10 @@
 import express from "express";
+import movementRoutes from "./_movement_route";
+import notificationRoutes from "./_notification_route";
 
 const routes = express.Router();
 
-routes.get("/", (req, res) => {
-  res.json({
-    message: "Welcome to Quick step App backend!",
-  });
-});
-
-routes.get("*", (req, res) => {
-  res.json({
-    message: "Invalid path URL!",
-  });
-});
+routes.use("/movements", movementRoutes);
+routes.use("/notifications", notificationRoutes);
 
 export default routes;
