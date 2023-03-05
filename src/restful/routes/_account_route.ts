@@ -18,4 +18,12 @@ accountRoutes.post(
   UserController.createAccount
 );
 
+accountRoutes.post(
+  "/verify-account",
+  AuthValidate.otp,
+  UserController.verifyEmail
+);
+
+accountRoutes.post("/resend-otp", AuthValidate.email, UserController.resendOTP);
+
 export default accountRoutes;

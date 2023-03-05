@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { generateOTP } from "../../services/otp";
+import OTPService from "../../services/otp";
 
 const accountSchema = new mongoose.Schema({
   fullName: { type: String, required: true },
@@ -28,7 +28,7 @@ const changeStream = Account.watch();
 changeStream.on("change", async (change) => {
   if (change.operationType === "insert") {
     //Creata an OTP document in database
-    await generateOTP(change.fullDocument.email);
+    await OTPService.generateOTP(change.fullDocument.email);
   }
 });
 

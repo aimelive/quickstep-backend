@@ -20,6 +20,35 @@ export default class AuthValidate {
     next();
   }
 
+  static otp(req: Request, res: Response, next: NextFunction) {
+    const schema = Joi.object().keys({
+      email: Joi.string().required().email(),
+      otp: Joi.number().integer().max(9999).required(),
+    });
+    const { error } = schema.validate(req.body);
+    if (error) {
+      return new Respond(res).success(400, {
+        message: error.details[0].message.replace(/"/g, ""),
+        data: undefined,
+      });
+    }
+    next();
+  }
+
+  static email(req: Request, res: Response, next: NextFunction) {
+    const schema = Joi.object().keys({
+      email: Joi.string().required().email(),
+    });
+    const { error } = schema.validate(req.body);
+    if (error) {
+      return new Respond(res).success(400, {
+        message: error.details[0].message.replace(/"/g, ""),
+        data: undefined,
+      });
+    }
+    next();
+  }
+
   static login(req: Request, res: Response, next: NextFunction) {
     const schema = Joi.object().keys({
       email: Joi.string().required().email(),

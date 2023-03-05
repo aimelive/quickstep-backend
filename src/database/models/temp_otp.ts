@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { deleteOTP } from "../../services/otp";
+import OTPService from "../../services/otp";
 import { sendEmail } from "../../services/send_mail";
 
 const tempOTPSchema = new mongoose.Schema({
@@ -18,7 +18,7 @@ changeStream.on("change", (change) => {
     // console.log();
     sendEmail(email, otp);
     //Schedule a task to delete this in 2 hours
-    deleteOTP(change.fullDocument._id);
+    OTPService.deleteOTP(change.fullDocument._id);
   }
 });
 
