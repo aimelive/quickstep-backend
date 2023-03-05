@@ -8,6 +8,7 @@ import Profile from "../../database/models/profile";
 const unlinkFile = util.promisify(fs.unlink);
 
 export default class ProfileController {
+  /// Create profile of the user
   static createProfile = async (req: Request, res: Response) => {
     const respond = new Respond(res);
     try {
@@ -26,6 +27,24 @@ export default class ProfileController {
       const { username, email } = req.body;
 
       const profile = await Profile.create({ username, email, imgUrl, userId });
+
+      return respond.success(200, {
+        message: "User profile retrieved successfully",
+        data: profile,
+      });
+    } catch (error) {
+      return respond.error(error);
+    }
+  };
+
+  static getProfile = async (req: Request, res: Response) => {
+    const respond = new Respond(res);
+    try {
+      const userId: string = res.locals.accountId;
+
+      if (!userId) throw new Error("User not logged in");
+
+      const profile = await Profile.findOne({ userId });
 
       return respond.success(200, {
         message: "User profile retrieved successfully",
