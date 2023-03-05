@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Agenda, { Job, JobAttributesData } from "agenda";
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -13,3 +14,7 @@ export async function connectDB() {
     console.log("Connecting DB failed: ", error);
   }
 }
+
+export const agenda = new Agenda({
+  db: { address: DB_URL, collection: "databaseJobs" },
+});
