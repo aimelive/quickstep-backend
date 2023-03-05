@@ -33,9 +33,13 @@ export default class OTPService {
     try {
       await agenda.start();
       agenda.define<DeleteOTP>(DELETE_OTP, async (job, done) => {
-        await TempOTP.findByIdAndDelete(job.attrs.data.id);
+        try {
+          await TempOTP.findByIdAndDelete(job.attrs.data.id);
+          await job.remove();
+        } catch (error: any) {
+          console.log(error.message);
+        }
         done();
-        await job.remove();
       });
       // await agenda.now(DELETE_OTP, { id });
       await agenda.schedule<DeleteOTP>("in 2 hours", DELETE_OTP, { id });

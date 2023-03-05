@@ -45,7 +45,7 @@ export default class UserController {
       if (!result) throw new Error("OTP not found");
 
       const data = await Account.findOneAndUpdate(
-        { email: result.email },
+        { email: result.email, verified: false },
         { verified: true },
         { new: true }
       );
@@ -107,7 +107,7 @@ export default class UserController {
         });
       }
       const token = generateToken(user.id);
-  
+
       return respond.success(200, {
         message: "User logged in successfully",
         data: { user, token },
