@@ -63,7 +63,7 @@ export default class AuthMiddleWare {
       }
       if (exist.role !== "admin") {
         return respond.success(401, {
-          message: "UNAUTHORIZED ACTION",
+          message: "Login as Admin to perform this action",
           data: undefined,
         });
       }

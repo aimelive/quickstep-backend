@@ -21,7 +21,9 @@ export async function sendNotification(
 //Getting all notifications
 export const getNotifications = async (req: Request, res: Response) => {
   try {
-    const notifications = await Notification.find();
+    const id: string = res.locals.accountId;
+    if (!id) throw new Error("User not logged in");
+    const notifications = await Notification.find({ to: id });
     res.status(200).json({
       message: "Notifications retrieved successfully",
       count: notifications.length,
@@ -37,7 +39,10 @@ export const deleteNotification = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const notification = await Notification.findByIdAndDelete(id);
+    const to: string = res.locals.accountId;
+    if (!to) throw new Error("User not logged in");
+
+    const notification = await Notification.findOneAndDelete({ _id: id, to });
 
     if (!notification) {
       return res.status(404).json({

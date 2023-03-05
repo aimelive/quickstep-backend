@@ -18,6 +18,8 @@ accountRoutes.post(
   UserController.createAccount
 );
 
+accountRoutes.post("/login", AuthValidate.login, UserController.login);
+
 accountRoutes.post(
   "/verify-account",
   AuthValidate.otp,

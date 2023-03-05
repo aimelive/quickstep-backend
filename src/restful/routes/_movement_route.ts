@@ -1,16 +1,23 @@
 import express from "express";
+import MovementValidate from "../../utils/validations/_movement_validate";
 import {
   addMovement,
   deleteMovement,
   getAllMovements,
   getMovement,
 } from "../controllers/movement";
+import AuthMiddleWare from "../middlewares/_auth_middleware";
 
 const movementRoutes = express.Router();
 
-movementRoutes.get("/", getAllMovements);
-movementRoutes.get("/:id", getMovement);
-movementRoutes.post("/create", addMovement);
-movementRoutes.delete("/:id", deleteMovement);
+movementRoutes.get("/", AuthMiddleWare.isLoggedIn, getAllMovements);
+movementRoutes.get("/:id", AuthMiddleWare.isLoggedIn, getMovement);
+movementRoutes.post(
+  "/create",
+  AuthMiddleWare.isLoggedIn,
+  MovementValidate.create,
+  addMovement
+);
+movementRoutes.delete("/:id", AuthMiddleWare.isLoggedIn, deleteMovement);
 
 export default movementRoutes;

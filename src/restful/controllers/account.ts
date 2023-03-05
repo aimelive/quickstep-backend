@@ -2,7 +2,7 @@ import { Response, Request } from "express";
 import Account from "../../database/models/account";
 import OTPService from "../../services/otp";
 import { sendEmail } from "../../services/send_mail";
-import { hashPwd } from "../../utils/helpers";
+import { comparePwd, generateToken, hashPwd } from "../../utils/helpers";
 import Respond from "../../utils/respond";
 
 export default class UserController {
@@ -79,6 +79,38 @@ export default class UserController {
       return respond.success(200, {
         message: "OTP resent successfully",
         data: undefined,
+      });
+    } catch (error) {
+      return respond.error(error);
+    }
+  };
+
+  static login = async (req: Request, res: Response) => {
+    const respond = new Respond(res);
+    try {
+      const { email, password } = req.body;
+
+      const user = await Account.findOne({ email });
+
+      if (!user) {
+        return respond.success(404, {
+          message: "Account not found",
+          data: email,
+        });
+      }
+
+      const validPwd = await comparePwd(password, user.password);
+      if (!validPwd) {
+        return respond.success(401, {
+          message: "Invalid password",
+          data: email,
+        });
+      }
+      const token = generateToken(user.id);
+  
+      return respond.success(200, {
+        message: "User logged in successfully",
+        data: { user, token },
       });
     } catch (error) {
       return respond.error(error);

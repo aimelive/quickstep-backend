@@ -4,9 +4,14 @@ import Movement from "../../database/models/movement";
 // Getting all movements
 export const getAllMovements = async (req: Request, res: Response) => {
   try {
+    const id: string = res.locals.accountId;
+
+    if (!id) throw new Error("User not logged in");
+
     const movements = await Movement.find({
-      actors: { $in: ["jean paul"] },
+      $or: [{ creatorId: id }, { actors: { $in: [id] } }],
     }).sort({ updatedAt: -1 });
+
     return res.status(200).json({
       message: "Movements retrieved successfully",
       count: movements.length,
@@ -38,14 +43,15 @@ export const getMovement = async (req: Request, res: Response) => {
 // Create new movement
 export const addMovement = async (req: Request, res: Response) => {
   try {
-    // console.log(req.body);
-    const { title, description, creator, creatorId, actors } = req.body;
+    const id: string = res.locals.accountId;
+    if (!id) throw new Error("User not logged in");
+    const { title, description, creator, actors } = req.body;
 
     const movement = await Movement.create({
       title,
       description,
       creator,
-      creatorId,
+      creatorId: id,
       actors,
     });
 
@@ -63,8 +69,14 @@ export const addMovement = async (req: Request, res: Response) => {
 export const deleteMovement = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    const userId: string = res.locals.accountId;
 
-    const movement = await Movement.findByIdAndDelete(id);
+    if (!userId) throw new Error("User not logged in");
+
+    const movement = await Movement.findOneAndDelete({
+      _id: id,
+      creatorId: userId,
+    });
 
     if (!movement) {
       return res.status(404).json({
