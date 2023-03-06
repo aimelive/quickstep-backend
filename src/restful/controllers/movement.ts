@@ -68,13 +68,13 @@ export const addMovement = async (req: Request, res: Response) => {
 //Delete movement
 export const deleteMovement = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const { deleteId } = req.params;
     const userId: string = res.locals.accountId;
 
     if (!userId) throw new Error("User not logged in");
 
     const movement = await Movement.findOneAndDelete({
-      _id: id,
+      _id: deleteId,
       creatorId: userId,
     });
 

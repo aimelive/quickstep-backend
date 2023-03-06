@@ -18,6 +18,6 @@ movementRoutes.post(
   MovementValidate.create,
   addMovement
 );
-movementRoutes.delete("/:id", AuthMiddleWare.isLoggedIn, deleteMovement);
+movementRoutes.delete("/:deleteId", AuthMiddleWare.isLoggedIn, deleteMovement);
 
 export default movementRoutes;
