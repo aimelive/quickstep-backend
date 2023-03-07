@@ -49,6 +49,6 @@ export async function getImageUrl(key: string): Promise<string> {
   };
   const command = new GetObjectCommand(getObjectParams);
 
-  const url = await getSignedUrl(s3, command, {});
+  const url = await getSignedUrl(s3, command, { expiresIn: 604800 });
   return url;
 }
