@@ -7,20 +7,20 @@ export default class ProfileController {
   static createProfile = async (req: Request, res: Response) => {
     const respond = new Respond(res);
     try {
-      // const userId: string = res.locals.accountId;
-      // if (!userId) throw new Error("User not logged in");
+      const userId: string = res.locals.accountId;
+      if (!userId) throw new Error("User not logged in");
 
-      // const imgUrl = res.locals.profileImageUrl;
+      const imgUrl = res.locals.profileImageUrl;
 
-      // const { username, email } = req.body;
-      // if (!imgUrl || !username || !email)
-      //   throw new Error("All fields are required");
+      const { username, email } = req.body;
+      if (!imgUrl || !username || !email)
+        throw new Error("All fields are required");
 
-      // const profile = await Profile.create({ username, email, imgUrl, userId });
+      const profile = await Profile.create({ username, email, imgUrl, userId });
 
       return respond.success(200, {
         message: "User profile created successfully",
-        data: undefined,
+        data: profile,
         // data: profile,
       });
     } catch (error) {

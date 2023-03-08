@@ -10,7 +10,7 @@ const fileFilter = (
 ) => {
   console.log(file);
   // Check if the file type is valid
-  if (!file.mimetype.match(/jpg|jpeg|png/)) {
+  if (!file.mimetype.match(/jpg|jpeg|png|octet-stream/)) {
     const error = new Error("Invalid image file");
     return callback(error);
   }
