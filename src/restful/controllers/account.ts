@@ -10,7 +10,10 @@ export default class UserController {
   static getAllUsers = async (req: Request, res: Response) => {
     const respond = new Respond(res);
     try {
-      const users = await Account.find();
+      const users = await Account.find({
+        _id: { $ne: res.locals.accountId },
+        verified: true,
+      });
       return respond.success(200, {
         message: "Users retrieved successfully",
         count: users.length,

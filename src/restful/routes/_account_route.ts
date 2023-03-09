@@ -8,7 +8,7 @@ const accountRoutes = express.Router();
 accountRoutes.get(
   "/",
   AuthMiddleWare.isLoggedIn,
-  AuthMiddleWare.isAdmin,
+  // AuthMiddleWare.isAdmin,
   UserController.getAllUsers
 );
 accountRoutes.post(
