@@ -1,5 +1,6 @@
 import { Response, Request } from "express";
 import Account from "../../database/models/account";
+import Profile from "../../database/models/profile";
 import OTPService from "../../services/otp";
 import { sendEmail } from "../../services/send_mail";
 import { comparePwd, generateToken, hashPwd } from "../../utils/helpers";
@@ -10,9 +11,8 @@ export default class UserController {
   static getAllUsers = async (req: Request, res: Response) => {
     const respond = new Respond(res);
     try {
-      const users = await Account.find({
-        _id: { $ne: res.locals.accountId },
-        verified: true,
+      const users = await Profile.find({
+        userId: { $ne: res.locals.accountId },
       });
       return respond.success(200, {
         message: "Users retrieved successfully",
