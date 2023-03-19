@@ -97,7 +97,7 @@ export default class UserController {
 
       if (!user) {
         return respond.success(404, {
-          message: "Account not found",
+          message: "Account does not exist in our system",
           data: email,
         });
       }

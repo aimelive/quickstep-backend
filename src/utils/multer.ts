@@ -8,7 +8,6 @@ const fileFilter = (
   file: Express.Multer.File,
   callback: FileFilterCallback
 ) => {
-  console.log(file);
   // Check if the file type is valid
   if (!file.mimetype.match(/jpg|jpeg|png|octet-stream/)) {
     const error = new Error("Invalid image file");

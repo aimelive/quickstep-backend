@@ -5,13 +5,15 @@ import { Request, Response } from "express";
 export async function sendNotification(
   message: string,
   action: string,
-  to: string
+  to: string,
+  data: any
 ) {
   try {
     await Notification.create({
       message,
       action,
       to,
+      data,
     });
   } catch (error: any) {
     console.log(error);
@@ -23,7 +25,9 @@ export const getNotifications = async (req: Request, res: Response) => {
   try {
     const id: string = res.locals.accountId;
     if (!id) throw new Error("User not logged in");
-    const notifications = await Notification.find({ to: id });
+    const notifications = await Notification.find({ to: id }).sort({
+      createdAt: "desc",
+    });
     res.status(200).json({
       message: "Notifications retrieved successfully",
       count: notifications.length,

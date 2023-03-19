@@ -21,16 +21,29 @@ const Movement = mongoose.model("Movement", movementSchema);
 const changeStream = Movement.watch();
 
 changeStream.on("change", (change) => {
-  if (change.operationType === "insert") {
-    const actors: string[] = change.fullDocument.actors;
-    actors.forEach((actor) => {
-      sendNotification(
-        `${change.fullDocument.creator} has invited you to join the movement ${change.fullDocument.title}`,
-        "JOIN_MOVEMENT",
-        actor
-      );
-    });
+  switch (change.operationType) {
+    case "insert":
+      const actors: string[] = change.fullDocument.actors;
+      actors.forEach((actor) => {
+        sendNotification(
+          `${change.fullDocument.creator} has invited you to join the movement ${change.fullDocument.title}`,
+          "JOIN_MOVEMENT",
+          actor,
+          { movementId: change.fullDocument._id }
+        );
+      });
+      break;
+    case "delete":
+      // console.log(change.documentKey._id);
+      break;
+
+    default:
+      break;
   }
+  // if ( === ) {
+
+  // } else if (change.operationType === "delete") {
+  // }
 });
 
 export default Movement;
