@@ -3,11 +3,9 @@ import Joi from "joi";
 import Respond from "../respond";
 
 export default class ProfileValidate {
-  static create(req: Request, res: Response, next: NextFunction) {
+  static getMultiple(req: Request, res: Response, next: NextFunction) {
     const schema = Joi.object().keys({
-      username: Joi.string().required().min(4).max(15),
-      email: Joi.string().email().required(),
-      type: Joi.string().valid("personal", "business"),
+      users: Joi.array().items(Joi.string().min(5)).required().min(1),
     });
     const { error } = schema.validate(req.body);
     if (error) {

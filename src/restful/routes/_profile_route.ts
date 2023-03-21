@@ -1,5 +1,6 @@
 import express from "express";
 import { upload } from "../../utils/multer";
+import ProfileValidate from "../../utils/validations/_profile_validate";
 
 import ProfileController from "../controllers/profile";
 import AuthMiddleWare from "../middlewares/_auth_middleware";
@@ -16,5 +17,11 @@ profileRoutes.post(
 );
 
 profileRoutes.get("/", AuthMiddleWare.isLoggedIn, ProfileController.getProfile);
+profileRoutes.get(
+  "/multiple",
+  ProfileValidate.getMultiple,
+  AuthMiddleWare.isLoggedIn,
+  ProfileController.getMultipleProfiles
+);
 
 export default profileRoutes;
