@@ -37,6 +37,8 @@ io.on("connection", (socket: Socket) => {
       id: data.user,
       username: data.username,
       room: data.room,
+      img: data.profileUrl,
+      joinedAt: new Date(),
     });
 
     socket.join(user.room);
@@ -55,12 +57,24 @@ io.on("connection", (socket: Socket) => {
 
       io.to(userA.room).emit("locationChanged", {
         user: userA.id,
-        username: userA.username,
         lat,
         long,
       });
     });
-    // hkbj
+    //Chatting message
+    socket.on("chatMessage", (data) => {
+      const { userId, message } = data;
+
+      const userA = getCurrentUser(userId);
+
+      if (!userA) return;
+
+      io.to(userA.room).emit("chatMessage", {
+        userId,
+        message,
+        sentAt: new Date(),
+      });
+    });
     //Send users and room info
     io.to(user.room).emit("roomUsers", {
       room: user.room,
