@@ -20,9 +20,10 @@ Real-time live location tracking app in Flutter - Backend server
 - Generating, clearing or receiving notifications
 - Accept or decline joining movement request
 
-## Demo
+## Api & Demo
+- API url: [https://quickstep.up.railway.app/](https://quickstep.up.railway.app/)
 
-- You can find full demo video of the client side on YouTube via:
+- You can find full demo video of the client side on YouTube via: [https://www.youtube.com/watch?v=V_tnQ8OqVaw](https://www.youtube.com/watch?v=V_tnQ8OqVaw)
 
 ## Client
 
@@ -36,7 +37,7 @@ https://github.com/aimelive/quickstep_app
 You can find api documentation made with swagger here:
 
 ```bash
-docs shoud go here.....
+https://quickstep.up.railway.app/api/v1/docs/
 ```
 
 ## Run locally
@@ -88,4 +89,4 @@ npm run dev
 ### Author
 - [Aime Ndayambaje](https://github.com/aimelive)
 ### Contact Me
-- For any ideas, suggestions, improvements, guidance or questions regarding this project, please contact me via my email [aimendayambaje24@gmail.com](aimendayambaje24@gmail.com) or LinkedIn [Aime Ndayambaje](https://linkedin.com/in/aime-ndayambaje)
+- For any ideas, suggestions, improvements, guidance or questions regarding this project, please contact me via my email [aimendayambaje24@gmail.com](mailto:aimendayambaje24@gmail.com) or LinkedIn [Aime Ndayambaje](https://linkedin.com/in/aime-ndayambaje)
