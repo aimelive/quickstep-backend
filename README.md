@@ -27,10 +27,7 @@ Real-time live location tracking app in Flutter - Backend server
 
 ## Client
 
-- Flutter mobile application is available via this repository:
-```bash
-https://github.com/aimelive/quickstep_app
-```
+- Flutter mobile application is available via this repository: [https://github.com/aimelive/quickstep_app](https://github.com/aimelive/quickstep_app)
 
 ## API Documentation
 
