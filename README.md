@@ -1,4 +1,4 @@
-# Quickstep - Backend Server
+# Quickstep - Backend Server.
 
 Real-time live location tracking app in Flutter - Backend server
 
