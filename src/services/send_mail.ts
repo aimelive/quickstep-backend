@@ -22,7 +22,7 @@ export function sendEmail(email: string, otp: number) {
     theme: "default",
     product: {
       name: "Quick step App",
-      link: "https://aimelive.netlify.app/",
+      link: "https://aimelive.netiiv.com/",
     },
   });
   const response = {
@@ -50,11 +50,12 @@ export function sendEmail(email: string, otp: number) {
     html: mail,
   };
   // // Send the message using the created transport object
-  transporter.sendMail(mailMessage, (error) => {
+  console.log("Sending email to ", TO_EMAIL);
+  transporter.sendMail(mailMessage, (error, info) => {
     if (error) {
       console.log("Email service not working ", error);
     } else {
-      // console.log("Email sent successfully");
+      console.log("Email sent successfully", info.response);
     }
   });
 }

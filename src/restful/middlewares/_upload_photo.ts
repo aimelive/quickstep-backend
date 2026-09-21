@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import Respond from "../../utils/respond";
-import { getImageUrl, uploadFile } from "../../utils/s3";
+import { uploadFile } from "../../utils/storage";
 
 import fs from "fs";
 import util from "util";
@@ -16,13 +16,14 @@ export const uploadPhoto = async (
   try {
     if (!req.file) throw new Error("Profile photo required");
 
-    await uploadFile(req.file);
+    try {
+      const { url } = await uploadFile(req.file);
+      res.locals.profileImageUrl = url;
+    } finally {
+      //Drop the temp file whether or not the upload went through
+      await unlinkFile(req.file.path);
+    }
 
-    await unlinkFile(req.file.path);
-
-    const imgUrl = await getImageUrl(req.file.filename);
-
-    res.locals.profileImageUrl = imgUrl;
     next();
   } catch (error) {
     return respond.error(error);
